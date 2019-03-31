@@ -12,12 +12,13 @@ class NativeCash():
         index=sum(ord(input_string[i])**(i+1) for i in range(len(input_string)))%self.size
         return index
     
-    def is_key(self, key):
-         # возвращает True если ключ имеется,
-         # иначе False
+    def index_finder(self,key):
+        #Вспомогательный метод-находит необходимый индекс
         key=str(key)
         index=self.hash_fun(key)
         count=0
+        result=[]
+        flag=False
         while self.slots[index]!=str(key):
             if index<self.size-1:
                 index+=1
@@ -25,23 +26,28 @@ class NativeCash():
                 index=0
             count+=1
             if count>self.size:
-                return False
+                flag=False
+                result.append(index)
+                result.append(flag)
+                return result 
         if count<=self.size:
-            return True
+            flag=True
+        result.append(index)
+        result.append(flag)
+        return result
+        
 
-        for i in range(len(self.slots)):
-            if self.slots[i]==key:
-                flag=True
-                return flag
-            else:
-                i+=1
-        if flag==False:
-            return flag    
+    def is_key(self, key):
+        # возвращает True если ключ имеется,
+        # иначе False
+        key=str(key)
+        result=self.index_finder(key)
+        return result[1]
+   
 
     def put(self, key, value):
         # гарантированно записываем 
         # значение value по ключу key
-
         if None in self.slots and value!=None:
             index=self.hash_fun(key)
             while self.slots[index]!=None:
@@ -64,11 +70,9 @@ class NativeCash():
         # или None если ключ не найден
         key=str(key)
         if self.is_key(key)==True:
-            for index in range(len(self.slots)):
-                if self.slots[index]==key:
-                    self.hits[index]+=1
-                    data=self.values[index]
-                index+=1
+            index=self.index_finder(key)[0]
+            self.hits[index]+=1
+            data=self.values[index]
             return data
         else:
             return None    
