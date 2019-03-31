@@ -16,7 +16,19 @@ class NativeCash():
          # возвращает True если ключ имеется,
          # иначе False
         key=str(key)
-        flag=False
+        index=self.hash_fun(key)
+        count=0
+        while self.slots[index]!=str(key):
+            if index<self.size-1:
+                index+=1
+            else:
+                index=0
+            count+=1
+            if count>self.size:
+                return False
+        if count<=self.size:
+            return True
+
         for i in range(len(self.slots)):
             if self.slots[i]==key:
                 flag=True
@@ -79,4 +91,7 @@ print(a.hits)
 a.put("замена",999)
 print("_______")
 print(a.slots)
-print(a.values)"""
+print(a.values)
+print(a.is_key("первый"))
+print(a.is_key("пятый"))
+print(a.is_key("замена"))"""

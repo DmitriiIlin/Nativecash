@@ -100,17 +100,6 @@ class Native_cashe_Tests(unittest.TestCase):
 
 
 
-"""Z=key_data()
-print(Z)
-print(key(Z))
-print(values(Z))
-a=Native_cashe.NativeCash(11)
-for i in range(len(a.slots)):
-    a.put(key(Z)[i],values(Z)[i])
-print(a.slots)
-print(a.values)
-print(a.hits)
-print(conflicts(Z,11))"""
 
 if __name__ == '__main__':
     try:
